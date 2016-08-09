@@ -1,12 +1,18 @@
-<h1>
+<header>
+  <h1>
   Weather App 
-</h1>
-<input type="text" [(ngModel)]="city" 
-placeholder="Search weather for your city" 
-(keyup)="addCity(city,$event)" >
-<h2> This Is The weather forecast for {{city}}</h2>
-<ul *ngFor="#weather of weatherOfCities">   
-  <li><h2>  {{weather.city }} </h2></li>
-  <li> Weather Type : {{weather.main}} </li>
-  <li> Weather Description : {{weather.description}} </li>
-</ul>
+  </h1>
+
+</header>
+
+<div class="content">
+  <input type="text" [(ngModel)]="city" 
+  placeholder="Search weather for your city" 
+  (keyup)="addCity(city,$event)" >
+  <h2> This Is The weather forecast for {{city}}</h2>
+  <ul *ngFor="#weather of weatherOfCities">   
+    <li><h2>  {{weather.city }} </h2></li>
+    <li> Weather Type : {{weather.main}} </li>
+    <li> Weather Description : {{weather.description}} </li>
+  </ul>
+</div>
