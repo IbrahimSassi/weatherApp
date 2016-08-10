@@ -1,39 +1,47 @@
 import { Component } from '@angular/core';
 import { Weather } from './weather';
+import 'rxjs/Rx';
 import { WeatherService } from './services/weatherService';
+
 @Component({
   moduleId: module.id,
   selector: 'my-app',
-  providers : [WeatherService],
   templateUrl: 'app.component.html',
-  styleUrls: ['app.component.css']
+  styleUrls: ['app.component.css'],
+    providers : [WeatherService],
+
 })
 export class AppComponent {
 
-  weather:Weather;
-  public city:string;
+  public city:string="";
   public cities:Array<string>;
-  public weatherOfCities:Array<Weather>;
-  public errorMessage;string;
+  public weatherOfCities:Array<any>=[];
+  public errorMessage:string="";
 
 
-  constructor(private weatherService:WeatherService){
-    this.city = "";
-    this.weatherOfCities = [];
-
-  }
+  constructor(private weatherService:WeatherService){}
 
 
       
-    addCity(city:string,$event) {
-        this.errorMessage="";
-      if($event.keyCode==13){
-        var weather = this.weatherService.getWeather(city);
-        if(weather){
-          this.weatherOfCities.push(weather);
-        }
-        this.city="";
-      }
+    addCity(city:string, $event) {
+        if ($event.keyCode == 13) {     
+            this.weatherService.getWeather(city)
+                .subscribe(res => {
+                    if (res) {
+                        console.log(res);
+                        this.weatherOfCities.push(res);
+                        this.errorMessage = undefined;
+                    } else {
+                        var cityWithoutWeather = city;
+                        this.errorMessage = "* There is no weather data " + cityWithoutWeather;
+                    }
+                    this.city = "";
+                }, error => {
+                    console.log(error)
+                    this.city = "";
+                    this.errorMessage = error;
+                });
+        } 
     }
 
 
