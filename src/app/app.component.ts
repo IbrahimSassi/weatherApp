@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { Weather } from './weather';
-
+import { WeatherService } from './services/weatherService';
 @Component({
   moduleId: module.id,
   selector: 'my-app',
+  providers : [WeatherService],
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.css']
 })
@@ -13,10 +14,10 @@ export class AppComponent {
   public city:string;
   public cities:Array<string>;
   public weatherOfCities:Array<Weather>;
+  public errorMessage;string;
 
 
-
-  constructor(){
+  constructor(private weatherService:WeatherService){
     this.city = "";
     this.weatherOfCities = [];
 
@@ -24,30 +25,10 @@ export class AppComponent {
 
 
       
-    getWeather = function(city:string) {
-      var weather:Weather;
-      if(city.toLocaleLowerCase()== "vienna"){
-        weather = {
-          "id": 1,
-          "city": "Vienna",
-          "main": "Clouds",
-          "description":"overcast clouds"
-        };
-      }
-      else if (city.toLocaleLowerCase()== "london"){
-        weather = {
-          "id": 2,
-          "city": "London",
-          "main": "Rain",
-          "description":"Very Heavy Rain"
-        };
-      }
-      return weather;
-    }
-
-    addCity = function(city:string,$event) {
+    addCity(city:string,$event) {
+        this.errorMessage="";
       if($event.keyCode==13){
-        var weather = this.getWeather(city);
+        var weather = this.weatherService.getWeather(city);
         if(weather){
           this.weatherOfCities.push(weather);
         }

@@ -15,7 +15,7 @@ input {
     border-bottom: 1px solid #D3D3D3;
     padding-bottom: 10px;
 }
-.error-message {
+.errorMessage {
     color : red;
     font-style: 8px;
 }
